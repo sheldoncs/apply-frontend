@@ -1,0 +1,17 @@
+.Button {
+  width: 300px;
+  font-family: "Roboto Condensed", sans-serif;
+  background-color: #3b5998;
+  height: 50px;
+  border-radius: 5px;
+  margin-top: 15px;
+  border: 0px;
+  color: #fff;
+}
+
+.HideButton {
+  display: none;
+}
+.ShowButton {
+  display: block;
+}

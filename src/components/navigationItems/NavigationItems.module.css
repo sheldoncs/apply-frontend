@@ -1,0 +1,33 @@
+.NavigationItems {
+  margin: 0px;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  /* 
+  align-items: flex-end;
+  height: 100%;
+  
+  width: 100%;
+  flex-flow: column;
+  
+  align-content: flex-end; */
+  background-color: #336b7d;
+}
+.MenuItem {
+  position: relative;
+  float: right;
+  margin: 10px;
+}
+@media (min-width: 500px) {
+  .NavigationItems {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    flex-flow: row;
+    align-items: center;
+    height: 100%;
+  }
+}

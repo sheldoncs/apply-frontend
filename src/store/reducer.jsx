@@ -1,0 +1,34 @@
+import * as actionTypes from "./actions/actionTypes";
+
+const initialState = {
+  credentials: { username: " ", password: " ", email: " " },
+  formIsValid: false,
+  loginAuthenticated: false,
+  isRegistering: false,
+  facebook: "visible",
+  google: "visible",
+};
+const reducer = (state = initialState, action) => {
+  switch (action.type) {
+    case actionTypes.IS_REGISTERING:
+      return {
+        ...state,
+        isRegistering: action.isRegistering,
+        facebook: action.facebookVisible,
+        google: action.googleVisible,
+      };
+    case actionTypes.SAVE_CREDENTIALS:
+      return {
+        ...state,
+        credentials: action.credentials,
+      };
+    case actionTypes.LOGIN_FORM_IS_VALID:
+      return { ...state, formIsValid: action.formIsValid };
+    case actionTypes.LOGIN_AUTHENTICATED:
+      return { ...state, loginAuthenticated: action.loginAuthenticated };
+    default:
+      return state;
+  }
+};
+
+export default reducer;
