@@ -1,7 +1,7 @@
 import React from "react";
-import { Query } from "../../../types";
+import { Query } from "../../types";
 import classes from "./button.module.css";
-import { authorizeUser } from "../../../graphql/query/login";
+import { authorizeUser } from "../../graphql/query/login";
 
 import { useQuery } from "react-apollo";
 
@@ -12,15 +12,12 @@ interface Props {
   disabled: any;
 }
 
-const Authorize: React.FunctionComponent<Props> = ({
+const AuthorizeUsers: React.FunctionComponent<Props> = ({
   credentials,
   clicked,
   children,
   disabled,
 }) => {
-  let buttonClasses = [classes.Button];
-  buttonClasses.push("btn");
-  buttonClasses.push("btn-info");
   if (credentials != null) {
     if (credentials.username == undefined) {
       credentials.username = " ";
@@ -42,18 +39,7 @@ const Authorize: React.FunctionComponent<Props> = ({
   if (data?.authorizeUser?.username != null) {
     authorize = true;
   }
-
-  return (
-    <div>
-      <button
-        className={buttonClasses.join(" ")}
-        onClick={() => clicked(authorize)}
-        disabled={disabled}
-      >
-        {children}
-      </button>
-    </div>
-  );
+  return <div></div>;
 };
 
-export default Authorize;
+export default AuthorizeUsers;

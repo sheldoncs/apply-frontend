@@ -4,6 +4,7 @@ import classes from "./App.module.css";
 
 import Login from "./containers/login/login";
 import { Route, Switch } from "react-router-dom";
+import Users from "./components/authorizeUsers/AuthorizeUsers";
 
 function App() {
   return (

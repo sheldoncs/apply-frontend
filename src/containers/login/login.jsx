@@ -57,12 +57,12 @@ class Login extends Component {
     hasAuthenticated: false,
     isRegistering: false,
     saveActivated: false,
+    mounted: false,
   };
   authorizeHandler = (auth) => {
     console.log(auth);
   };
   buttonHandler = (auth) => {
-    console.log(this.props.credentials, auth);
     let currentState = { ...this.state };
     currentState.hasAuthenticated = auth;
 
@@ -174,8 +174,33 @@ class Login extends Component {
 
     return isValid;
   }
+  componentDidMount() {
+    let currentState = { ...this.state };
+    currentState.mounted = true;
+    this.setState({ mounted: currentState.mounted });
+  }
+  loginHandler = (event) => {
+    event.preventDefault();
+    let data = {
+      username: this.state.loginForm.username.value,
+      password: this.state.loginForm.password.value,
+    };
 
+    fetch("http://localhost:4000/login", {
+      method: "POST",
+      body: JSON.stringify(data),
+      contentType: "application/json; charset=utf-8",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((response) => {
+        response.json().then((result) => {
+          console.log(result);
+        });
+      })
+      .catch((error) => console.log("Error:", error));
+  };
   render() {
+    // if (!this.state.mounted) {
     let signInText = "Sign In";
     let divider = null;
     let message = null;
@@ -224,7 +249,11 @@ class Login extends Component {
           clicked={(options) => this.navigationHandler(options)}
         ></NavigationItems>
 
-        <form action="http://localhost:4000/login" method="POST">
+        <form
+          onSubmit={this.loginHandler}
+          // method="POST"
+          // action="http://localhost:4000/login"
+        >
           <div className={classes.Input}>
             <div className={classes.dispImage}>
               <img src={logo} />
@@ -235,8 +264,7 @@ class Login extends Component {
             {loginForm}
             <div className={classes.buttonContainer}>
               <Button
-                clicked={(authorize) => this.buttonHandler(authorize)}
-                disabled={!this.props.formIsValid}
+                clicked={this.buttonHandler}
                 credentials={this.props.credentials}
               >
                 {signInText}
@@ -248,7 +276,7 @@ class Login extends Component {
               <GoogleButton visible={this.props.google}>Google</GoogleButton>
               {this.props.formIsValid && (
                 <FormData
-                  authorized={(authorize) => this.authorizeHandler(authorize)}
+                  // authorized={(authorize) => this.authorizeHandler(authorize)}
                   credentials={this.props.credentials}
                 />
               )}
@@ -257,6 +285,7 @@ class Login extends Component {
         </form>
       </React.Fragment>
     );
+    // }
   }
 }
 const mapStateToProps = (state) => {

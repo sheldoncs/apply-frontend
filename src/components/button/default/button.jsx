@@ -1,33 +1,20 @@
 import React from "react";
-import Button from "./index";
+import classes from "./button.module.css";
+
+// import Button from "./index";
 
 const button = (props) => {
   let creds = null;
   let intializeValue = " ";
-  // console.log("credentials " + props.credentials);
-  if (props.credentials != null) {
-    creds = (
-      <Button
-        clicked={(authorize) => props.clicked(authorize)}
-        disabled={props.disabled}
-        credentials={props.credentials}
-      >
-        {props.children}
-      </Button>
-    );
-  } else {
-    creds = (
-      <div>
-        <Button
-          user={intializeValue}
-          pwd={intializeValue}
-          disabled={props.disabled}
-        >
-          {props.children}
-        </Button>
-      </div>
-    );
-  }
+  let buttonClasses = [classes.Button];
+  buttonClasses.push("btn");
+  buttonClasses.push("btn-info");
+
+  creds = (
+    <button onClick={() => props.clicked} className={buttonClasses.join(" ")}>
+      {props.children}
+    </button>
+  );
 
   return <div> {creds}</div>;
 };
