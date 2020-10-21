@@ -4,6 +4,7 @@ const initialState = {
   credentials: { username: " ", password: " ", email: " " },
   formIsValid: false,
   loginAuthenticated: false,
+  username:"",
   isRegistering: false,
   facebook: "visible",
   google: "visible",
@@ -25,7 +26,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.LOGIN_FORM_IS_VALID:
       return { ...state, formIsValid: action.formIsValid };
     case actionTypes.LOGIN_AUTHENTICATED:
-      return { ...state, loginAuthenticated: action.loginAuthenticated };
+      return { ...state, loginAuthenticated: action.loginAuthenticated, username:action.username };
     default:
       return state;
   }

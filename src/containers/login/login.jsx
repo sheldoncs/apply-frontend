@@ -179,6 +179,7 @@ class Login extends Component {
     currentState.mounted = true;
     this.setState({ mounted: currentState.mounted });
   }
+
   loginHandler = (event) => {
     event.preventDefault();
     let data = {
@@ -195,6 +196,18 @@ class Login extends Component {
       .then((response) => {
         response.json().then((result) => {
           console.log(result);
+          if (result.auth === true) {
+            localStorage.setItem("token", result.token);
+            localStorage.setItem(
+              "username",
+              this.state.loginForm.username.value
+            );
+            this.props.onLoginAuthenticated(
+              result.auth,
+              this.state.loginForm.username.value
+            );
+            this.props.history.push("/apply");
+          }
         });
       })
       .catch((error) => console.log("Error:", error));
@@ -304,8 +317,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actionCreators.saveCredentials(saveCreds)),
     onLoginFormIsValid: (isValid) =>
       dispatch(actionCreators.loginFormIsValid(isValid)),
-    onLoginAuthenticated: (isAuth) =>
-      dispatch(actionCreators.loginAuthenticated(isAuth)),
+    onLoginAuthenticated: (isAuth, username) =>
+      dispatch(actionCreators.loginAuthenticated(isAuth, username)),
     onRegistering: (isRegistering, facebookVisible, googleVisible) =>
       dispatch(
         actionCreators.formIsRegistering(

@@ -12,7 +12,7 @@ export const getLogins = gql`
 
 export const getByEmail = gql`
   query($username: String) {
-    getLoginByUsername(username: $username) {
+    singleLoginByUsername(username: $username) {
       ...userFields
     }
   }

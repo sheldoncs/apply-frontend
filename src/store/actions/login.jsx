@@ -17,9 +17,10 @@ export const formIsRegistering = (isRegistering, fbVisible, glVisible) => {
     googleVisible: glVisible,
   };
 };
-export const loginAuthenticated = (isAuth) => {
+export const loginAuthenticated = (isAuth,username) => {
   return {
     type: actionTypes.LOGIN_AUTHENTICATED,
     loginAuthenticated: isAuth,
+    username:username
   };
 };

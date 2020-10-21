@@ -4,6 +4,7 @@ export const loginFields = gql`
   fragment userFields on Login {
     id
     username
+    email
     password
   }
 `;

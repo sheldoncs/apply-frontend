@@ -21,10 +21,10 @@ export type MutationCreateLoginArgs = {
   data?: Maybe<CreateUserLogin>;
 };
 
-// export type MutationUpdateUserArgs = {
-//   id?: Maybe<Scalars["ID"]>;
-//   data?: Maybe<UpdateUserInput>;
-// };
+export type MutationUpdateUserArgs = {
+  id?: Maybe<Scalars["ID"]>;
+  data?: Maybe<UpdateUserInput>;
+};
 
 export type MutationDeleteLoginArgs = {
   id?: Maybe<Scalars["ID"]>;
@@ -34,23 +34,25 @@ export type Query = {
   __typename?: "Query";
   login?: Maybe<Login>;
   logins: Array<Login>;
-  findByEmail: Maybe<Login>;
+  getLoginByEmail: Maybe<Login>;
   authorizeUser: Maybe<Login>;
+  singleLoginByUsername: Maybe<Login>;
 };
 
 export type QueryLoginArgs = {
   id: Scalars["ID"];
 };
 
-// export type UpdateUserInput = {
-//   username?: Maybe<Scalars["String"]>;
-//   email?: Maybe<Scalars["String"]>;
-//   name?: Maybe<Scalars["String"]>;
-// };
+export type UpdateUserInput = {
+  username?: Maybe<Scalars["String"]>;
+  email?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+};
 
 export type Login = {
   __typename?: "Login";
   id: Scalars["ID"];
   username: Scalars["String"];
   password: Scalars["String"];
+  email: Scalars["String"];
 };
