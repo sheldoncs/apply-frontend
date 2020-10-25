@@ -1,0 +1,19 @@
+.DragDropZone {
+  padding: 2rem;
+  text-align: center;
+  background: #07f;
+  border-radius: 0.5rem;
+  box-shadow: 5px 5px 10px #c0c0c0;
+}
+.DragDropZone p {
+  color: #fff;
+}
+.DragDropZone.InsideDragArea {
+  opacity: 0.7;
+}
+.DroppedFiles li {
+  color: #07f;
+  padding: 3px;
+  text-align: left;
+  font-weight: bold;
+}

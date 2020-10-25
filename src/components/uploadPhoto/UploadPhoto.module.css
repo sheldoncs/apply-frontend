@@ -1,0 +1,32 @@
+.UploadPhoto {
+  margin: auto;
+  width: 250px;
+  padding-top: 40px;
+  display: block;
+}
+.shapePhoto {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  border: 3px solid cadetblue;
+  background: #000;
+}
+.PhotoContainer {
+  margin: auto;
+  width: 250px;
+  padding-top: 40px;
+  display: block;
+  font-family: "Libre Baskerville", serif;
+  font-size: 25px;
+  color: cadetblue;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.Button {
+  width: 170px;
+  border-radius: 3px !important;
+  display: block;
+  background-color: brown;
+  color: #fff;
+}

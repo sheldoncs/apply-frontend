@@ -1,0 +1,13 @@
+.FileInput {
+  border-radius: 5px;
+  width: 210px;
+  height: 40px;
+  font-family: "Roboto Condensed", sans-serif;
+  display: block;
+  margin: auto;
+  color: #fff;
+  margin-bottom: 3px;
+  z-index: 20;
+  margin-top: 150px;
+  cursor: pointer;
+}

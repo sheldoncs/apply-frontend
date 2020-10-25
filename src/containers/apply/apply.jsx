@@ -4,6 +4,10 @@ import * as actionCreators from "../../store/actions/index";
 import { connect } from "react-redux";
 import Cover from "../../components/cover/cover";
 import SideDrawer from "../../components/sideDrawer/sideDrawer";
+import UploadPhoto from "../../components/uploadPhoto/uploadPhoto";
+import FileInput from "../../components/fileInput/fileInput";
+import DragAndDrop from "../../components/dragAndDrop/dragAndDrop";
+import classes from "../../components/input/input.module.css";
 
 class Apply extends Component {
   state = {
@@ -55,6 +59,12 @@ class Apply extends Component {
     username: "",
     openCover: false,
     openDrawer: false,
+    setImage: {
+      preview: null,
+      raw: null,
+      testFile: "C:/Users/20003569/Desktop/photo/myphoto.png",
+      base64: null,
+    },
   };
   handleCover = () => {
     let saveState = { ...this.state };
@@ -66,7 +76,44 @@ class Apply extends Component {
     currentState.username = localStorage.getItem("username");
     this.setState({ username: currentState.username });
   }
+  handleChange = (e) => {
+    let tempState = { ...this.state };
 
+    if (e.target.files.length) {
+      tempState.setImage.preview = URL.createObjectURL(e.target.files[0]);
+      tempState.setImage.raw = e.target.files[0];
+
+      this.setState({ setImage: tempState.setImage });
+    }
+  };
+  handleUpload = (e) => {
+    e.preventDefault();
+    let formData = new FormData();
+    // for (let name in this.state.setImage.raw) {
+    //   formData.append(name, this.state.setImage.raw[name]);
+    //   console.log(name);
+    // }
+    formData.append("username", this.state.username);
+    formData.append("selectedFile", this.state.setImage.raw);
+    //
+
+    fetch(" http://localhost:4000/photo", {
+      method: "POST",
+      // mode: "no-cors",
+      // contentType: "application/json; charset=utf-8",
+      // headers: {
+      //   "Content-Type": "multipart/form-data,boundary=--123456",
+      //   "Access-Control-Allow-Origin": "*",
+      // },
+      body: formData,
+    }).then((response) => {
+      response.json().then((result) => {
+        let copyState = { ...this.state };
+        copyState.setImage.base64 = result.photo;
+        this.setState({ setImage: copyState.setImage });
+      });
+    });
+  };
   render() {
     return (
       <div>
@@ -75,7 +122,21 @@ class Apply extends Component {
         <NavigateBar
           clicked={this.handleCover}
           username={this.state.username}
+          base64string={this.state.setImage.base64}
         />
+        <div className={classes.dispImage}>
+          <label htmlFor="upload-button">
+            <UploadPhoto photo={this.state.setImage.preview} />
+          </label>
+        </div>
+        <FileInput
+          clicked={this.handleUpload}
+          className="d-block mb-3 mt-20"
+          change={this.handleChange}
+        >
+          Save Your Photo
+        </FileInput>
+        {/* <DragAndDrop className="d-block" /> */}
       </div>
     );
   }
