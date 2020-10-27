@@ -59,9 +59,7 @@ class Login extends Component {
     saveActivated: false,
     mounted: false,
   };
-  authorizeHandler = (auth) => {
-    console.log(auth);
-  };
+  authorizeHandler = (auth) => {};
   buttonHandler = (auth) => {
     let currentState = { ...this.state };
     currentState.hasAuthenticated = auth;
@@ -195,7 +193,6 @@ class Login extends Component {
     })
       .then((response) => {
         response.json().then((result) => {
-          console.log(result);
           if (result.auth === true) {
             localStorage.setItem("token", result.token);
             localStorage.setItem(

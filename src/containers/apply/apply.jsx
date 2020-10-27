@@ -107,7 +107,8 @@ class Apply extends Component {
       }`,
       variables: { username: currentState.username },
     }).then((res) => {
-      console.log(res.data);
+      currentState.setImage.base64 = res.data.singleLoginByUsername.imgblob;
+      this.setState({ ...currentState });
     });
   }
   handleChange = (e) => {
@@ -201,7 +202,7 @@ class Apply extends Component {
           className="d-block mb-3 mt-20"
           change={this.handleChange}
         >
-          Save Your Photo
+          Save Your New Photo
         </FileInput>
         {/* <DragAndDrop className="d-block" /> */}
       </div>
