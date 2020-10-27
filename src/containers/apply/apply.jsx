@@ -8,6 +8,7 @@ import UploadPhoto from "../../components/uploadPhoto/uploadPhoto";
 import FileInput from "../../components/fileInput/fileInput";
 import DragAndDrop from "../../components/dragAndDrop/dragAndDrop";
 import classes from "../../components/input/input.module.css";
+import ErrorMessage from "../../components/errorMessage/errorMessage";
 
 class Apply extends Component {
   state = {
@@ -59,6 +60,8 @@ class Apply extends Component {
     username: "",
     openCover: false,
     openDrawer: false,
+    imageSet: false,
+    showError: true,
     setImage: {
       preview: null,
       raw: null,
@@ -66,10 +69,19 @@ class Apply extends Component {
       base64: null,
     },
   };
+
   handleCover = () => {
     let saveState = { ...this.state };
-    saveState.openCover = !saveState.openCover;
-    this.setState({ openCover: saveState.openCover });
+
+    if (saveState.openCover) {
+      saveState.openDrawer = false;
+      saveState.openCover = false;
+      saveState.showError = false;
+    } else {
+      saveState.openCover = true;
+    }
+
+    this.setState({ ...saveState });
   };
   componentDidMount() {
     const currentState = { ...this.state };
@@ -82,45 +94,81 @@ class Apply extends Component {
     if (e.target.files.length) {
       tempState.setImage.preview = URL.createObjectURL(e.target.files[0]);
       tempState.setImage.raw = e.target.files[0];
-
-      this.setState({ setImage: tempState.setImage });
+      tempState.imageSet = true;
+      this.setState({
+        setImage: tempState.setImage,
+        imageSet: tempState.imageSet,
+      });
     }
   };
   handleUpload = (e) => {
     e.preventDefault();
     let formData = new FormData();
-    // for (let name in this.state.setImage.raw) {
-    //   formData.append(name, this.state.setImage.raw[name]);
-    //   console.log(name);
-    // }
+    let copyState = { ...this.state };
+
+    copyState.imageSet = false;
+    copyState.showError = false;
+    copyState.openCover = false;
+
     formData.append("username", this.state.username);
     formData.append("selectedFile", this.state.setImage.raw);
-    //
 
-    fetch(" http://localhost:4000/photo", {
-      method: "POST",
-      // mode: "no-cors",
-      // contentType: "application/json; charset=utf-8",
-      // headers: {
-      //   "Content-Type": "multipart/form-data,boundary=--123456",
-      //   "Access-Control-Allow-Origin": "*",
-      // },
-      body: formData,
-    }).then((response) => {
-      response.json().then((result) => {
-        let copyState = { ...this.state };
-        copyState.setImage.base64 = result.photo;
-        this.setState({ setImage: copyState.setImage });
+    if (copyState.imageSet) {
+      copyState.openCover = false;
+      copyState.showError = false;
+      fetch(" http://localhost:4000/photo", {
+        method: "POST",
+        // mode: "no-cors",
+        // contentType: "application/json; charset=utf-8",
+        // headers: {
+        //   "Content-Type": "multipart/form-data,boundary=--123456",
+        //   "Access-Control-Allow-Origin": "*",
+        // },
+        body: formData,
+      }).then((response) => {
+        response.json().then((result) => {
+          let copyState = { ...this.state };
+          copyState.setImage.base64 = result.photo;
+          this.setState({ setImage: copyState.setImage });
+        });
       });
+    } else {
+      copyState.openCover = true;
+      copyState.showError = true;
+    }
+    this.setState({
+      openCover: copyState.openCover,
+      showError: copyState.showError,
+    });
+  };
+  handleDrawer = () => {
+    let copyState = { ...this.state };
+    copyState.openCover = true;
+    copyState.showError = false;
+    copyState.openDrawer = true;
+
+    this.setState({
+      ...copyState,
     });
   };
   render() {
     return (
       <div>
-        <SideDrawer clicked={this.handleCover} show={this.state.openCover} />
+        <ErrorMessage
+          showError={this.state.showError}
+          show={this.state.openCover}
+        >
+          Click On Photo!
+        </ErrorMessage>
+        <SideDrawer
+          clicked={this.handleCover}
+          showError={this.state.showError}
+          show={this.state.openCover}
+          openDrawer={this.state.openDrawer}
+        />
         <Cover clicked={this.handleCover} show={this.state.openCover} />
         <NavigateBar
-          clicked={this.handleCover}
+          clicked={this.handleDrawer}
           username={this.state.username}
           base64string={this.state.setImage.base64}
         />
