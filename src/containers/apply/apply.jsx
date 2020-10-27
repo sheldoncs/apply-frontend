@@ -106,10 +106,6 @@ class Apply extends Component {
     let formData = new FormData();
     let copyState = { ...this.state };
 
-    copyState.imageSet = false;
-    copyState.showError = false;
-    copyState.openCover = false;
-
     formData.append("username", this.state.username);
     formData.append("selectedFile", this.state.setImage.raw);
 
