@@ -6,5 +6,6 @@ export const loginFields = gql`
     username
     email
     password
+    imgblob
   }
 `;

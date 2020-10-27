@@ -1,7 +1,9 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { createApolloFetch } from "apollo-fetch";
+
 import NavigateBar from "../../components/NavigateBar/NavigateBar";
 import * as actionCreators from "../../store/actions/index";
-import { connect } from "react-redux";
 import Cover from "../../components/cover/cover";
 import SideDrawer from "../../components/sideDrawer/sideDrawer";
 import UploadPhoto from "../../components/uploadPhoto/uploadPhoto";
@@ -9,6 +11,7 @@ import FileInput from "../../components/fileInput/fileInput";
 import DragAndDrop from "../../components/dragAndDrop/dragAndDrop";
 import classes from "../../components/input/input.module.css";
 import ErrorMessage from "../../components/errorMessage/errorMessage";
+import { findLogin } from "../../components/uploadPhoto/data/findLogin";
 
 class Apply extends Component {
   state = {
@@ -87,6 +90,25 @@ class Apply extends Component {
     const currentState = { ...this.state };
     currentState.username = localStorage.getItem("username");
     this.setState({ username: currentState.username });
+
+    const fetch = createApolloFetch({
+      uri: "http://localhost:4000/graphql",
+    });
+
+    fetch({
+      query: `query singleLoginByUsername($username: String) {
+        singleLoginByUsername(username: $username) {
+          id
+          username
+          email
+          password
+          imgblob
+        }
+      }`,
+      variables: { username: currentState.username },
+    }).then((res) => {
+      console.log(res.data);
+    });
   }
   handleChange = (e) => {
     let tempState = { ...this.state };
@@ -137,6 +159,7 @@ class Apply extends Component {
       showError: copyState.showError,
     });
   };
+
   handleDrawer = () => {
     let copyState = { ...this.state };
     copyState.openCover = true;

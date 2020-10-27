@@ -34,3 +34,12 @@ export const authorizeUser = gql`
   }
   ${loginFields}
 `;
+
+export const singleLoginByUsername = gql`
+  query($username: String) {
+    singleLoginByUsername(username: $username) {
+      ...userFields
+    }
+  }
+  ${loginFields}
+`;
